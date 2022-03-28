@@ -1,11 +1,5 @@
 package TestUserRegestrationJUnit;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.UserRegestrationJUnit.UserRegistrationException;
@@ -14,27 +8,28 @@ import com.UserRegestrationJUnit.ValidatingUserRegistrationInformation;
 import org.junit.Assert;
 
 class UserRegistrationJunitTest {
-	String resultExpected, resultActual;
+	String invalidResultExpected, invalidResultActual;
 
-    ValidatingUserRegistrationInformation validUseInfo = new ValidatingUserRegistrationInformation();
+    ValidatingUserRegistrationInformation validUserInfo = new ValidatingUserRegistrationInformation();
 
     @Test
     public void validFirstName() throws UserRegistrationException {
         try {
-            resultExpected = "Happy:User Entry Validated Successfully";
-            resultActual = validUseInfo.validFirstName("Venktesh");
-            Assert.assertEquals(resultExpected, resultActual);
+            invalidResultExpected = "Happy:User Entry Validated Successfully";
+            invalidResultActual = validUserInfo.validFirstName("Datta");
+            Assert.assertEquals(invalidResultExpected, invalidResultActual);
         } catch ( UserRegistrationException e) {
             Assert.assertEquals(UserRegistrationException.ExceptionType.INVALID_USER_FIRST_NAME, e.type);
         }
     }
 
+
     @Test
     public void invalidFirstName() throws UserRegistrationException {
         try {
-            resultExpected = "Sad:User Entry Validation Failed";
-            resultActual = validUseInfo.validFirstName("venktesh");
-            Assert.assertEquals(resultExpected, resultActual);
+            invalidResultExpected = "Sad:User Entry Validation Failed";
+            invalidResultActual = validUserInfo.validFirstName("datta");
+            Assert.assertEquals(invalidResultExpected, invalidResultActual);
         } catch ( UserRegistrationException e) {
             Assert.assertEquals(UserRegistrationException.ExceptionType.INVALID_USER_FIRST_NAME, e.type);
         }
@@ -43,9 +38,9 @@ class UserRegistrationJunitTest {
     @Test
     public void lastNameValid() throws  UserRegistrationException {
         try {
-            resultExpected = "Happy:User Entry Validated Successfully";
-            resultActual = validUseInfo.validLastName("Mane");
-            Assert.assertEquals(resultExpected, resultActual);
+            invalidResultExpected = "Happy:User Entry Validated Successfully";
+            invalidResultActual = validUserInfo.validLastName("Bhure");
+            Assert.assertEquals(invalidResultExpected, invalidResultActual);
         } catch ( UserRegistrationException e) {
             Assert.assertEquals(UserRegistrationException.ExceptionType.INVALID_USER_FIRST_NAME, e.type);
         }
@@ -54,31 +49,78 @@ class UserRegistrationJunitTest {
     @Test
     public void lastNameInValid() throws UserRegistrationException {
         try {
-            resultExpected = "Sad:User Entry Validation Failed";
-            resultActual = validUseInfo.validLastName("mane");
-            Assert.assertEquals(resultExpected, resultActual);
+            invalidResultExpected = "Sad:User Entry Validation Failed";
+            invalidResultActual = validUserInfo.validLastName("bhure");
+            Assert.assertEquals(invalidResultExpected, invalidResultActual);
         } catch ( UserRegistrationException e) {
             Assert.assertEquals(UserRegistrationException.ExceptionType.INVALID_USER_FIRST_NAME, e.type);
         }
     }
 
     @Test
-    public void emailIdValid() throws  UserRegistrationException {
+    public void emailValid() throws  UserRegistrationException {
         try {
-            resultExpected = "Happy:User Entry Validated Successfully";
-            resultActual = validUseInfo.validMailID("venktesh.mane18@gmail.com");
-            Assert.assertEquals(resultExpected, resultActual);
+
+            invalidResultExpected = "Happy:User Entry Validated Successfully";
+            invalidResultActual = validUserInfo.validMailID("abc@yahoo.com");
+            String validResultActual1 = validUserInfo.validMailID("abc-100@yahoo.com");
+            String validResultActual2 = validUserInfo.validMailID("abc.100@yahoo.com");
+            String validResultActual3 = validUserInfo.validMailID("abc111@abc.com");
+            String validResultActual4 = validUserInfo.validMailID("abc-100@abc.net");
+            String validResultActual5 = validUserInfo.validMailID("abc.100@abc.com.au");
+            String validResultActual6 = validUserInfo.validMailID("abc@1.com");
+            String validResultActual7 = validUserInfo.validMailID("abc@gmail.com.com");
+            String validResultActual8 = validUserInfo.validMailID("abc+100@gmail.com");
+
+            Assert.assertEquals(invalidResultExpected, invalidResultActual);
+            Assert.assertEquals(invalidResultExpected, validResultActual1);
+            Assert.assertEquals(invalidResultExpected, validResultActual2);
+            Assert.assertEquals(invalidResultExpected, validResultActual3);
+            Assert.assertEquals(invalidResultExpected, validResultActual4);
+            Assert.assertEquals(invalidResultExpected, validResultActual5);
+            Assert.assertEquals(invalidResultExpected, validResultActual6);
+            Assert.assertEquals(invalidResultExpected, validResultActual7);
+            Assert.assertEquals(invalidResultExpected, validResultActual8);
+
         } catch ( UserRegistrationException e) {
             Assert.assertEquals(UserRegistrationException.ExceptionType.INVALID_USER_MAIL_ID, e.type);
         }
     }
 
     @Test
-    public void emailIdInValid() throws  UserRegistrationException {
+    public void emailInValid()  {
         try {
-            resultExpected = "Sad:User Entry Validation Failed";
-            resultActual = validUseInfo.validMailID("venktesh.mane18.co.in");
-            Assert.assertEquals(resultExpected, resultActual);
+            invalidResultExpected = "Sad:User Entry Validation Failed";
+            String invalidResultActual = validUserInfo.validMailID("abc");
+            String invalidResultActual1 = validUserInfo.validMailID("abc@.com.my");
+            String invalidResultActual2 = validUserInfo.validMailID("abc123@gmail.a");
+            String invalidResultActual3 = validUserInfo.validMailID("abc123@.com");
+            String invalidResultActual4 = validUserInfo.validMailID("abc123@.com.com");
+            String invalidResultActual5 = validUserInfo.validMailID(".abc@abc.com");
+            String invalidResultActual6 = validUserInfo.validMailID("abc()*@gmail.com");
+            String invalidResultActual7 = validUserInfo.validMailID("abc@%*.com");
+            String invalidResultActual8 = validUserInfo.validMailID("abc..2002@gmail.com");
+            String invalidResultActual9 = validUserInfo.validMailID("abc.@gmail.com");
+            String invalidResultActual10 = validUserInfo.validMailID("abc@abc@gmail.com");
+            String invalidResultActual11 = validUserInfo.validMailID("abc@gmail.com.1a");
+            String invalidResultActual12 = validUserInfo.validMailID("abc@gmail.com.aa.au");
+
+
+            Assert.assertEquals(invalidResultExpected, invalidResultActual);
+            Assert.assertEquals(invalidResultExpected, invalidResultActual1);
+            Assert.assertEquals(invalidResultExpected, invalidResultActual2);
+            Assert.assertEquals(invalidResultExpected, invalidResultActual3);
+            Assert.assertEquals(invalidResultExpected, invalidResultActual4);
+            Assert.assertEquals(invalidResultExpected, invalidResultActual5);
+            Assert.assertEquals(invalidResultExpected, invalidResultActual6);
+            Assert.assertEquals(invalidResultExpected, invalidResultActual7);
+            Assert.assertEquals(invalidResultExpected, invalidResultActual8);
+            Assert.assertEquals(invalidResultExpected, invalidResultActual9);
+            Assert.assertEquals(invalidResultExpected, invalidResultActual10);
+            Assert.assertEquals(invalidResultExpected, invalidResultActual11);
+            Assert.assertEquals(invalidResultExpected, invalidResultActual12);
+
+
         } catch ( UserRegistrationException e) {
             Assert.assertEquals(UserRegistrationException.ExceptionType.INVALID_USER_MAIL_ID, e.type);
         }
@@ -87,10 +129,11 @@ class UserRegistrationJunitTest {
     @Test
     public void validMobileNum() throws  UserRegistrationException {
         try {
-            resultExpected = "Happy:User Entry Validated Successfully";
-            resultActual = validUseInfo.validMobileNumber("91-9527872718");
-            Assert.assertEquals(resultExpected, resultActual);
+            invalidResultExpected = "Happy:User Entry Validated Successfully";
+            invalidResultActual = validUserInfo.validMobileNumber("91-9923064024");
+            Assert.assertEquals(invalidResultExpected, invalidResultActual);
         } catch ( UserRegistrationException e) {
+
             Assert.assertEquals(UserRegistrationException.ExceptionType.INVALID_USER_MOBILE_NUMBER, e.type);
         }
     }
@@ -98,9 +141,9 @@ class UserRegistrationJunitTest {
     @Test
     public void invalidMobileNum() throws UserRegistrationException {
         try {
-            resultExpected = "Sad:User Entry Validation Failed";
-            resultActual = validUseInfo.validMobileNumber("9527872718");
-            Assert.assertEquals(resultExpected, resultActual);
+            invalidResultExpected = "Sad:User Entry Validation Failed";
+            invalidResultActual = validUserInfo.validMobileNumber("9923064024");
+            Assert.assertEquals(invalidResultExpected, invalidResultActual);
         } catch ( UserRegistrationException e) {
             Assert.assertEquals(UserRegistrationException.ExceptionType.INVALID_USER_MOBILE_NUMBER, e.type);
         }
@@ -109,9 +152,9 @@ class UserRegistrationJunitTest {
     @Test
     public void validPassword() throws UserRegistrationException {
         try {
-            resultExpected = "Happy:User Entry Validated Successfully";
-            resultActual = validUseInfo.validPassword("vm18gB&@z");
-            Assert.assertEquals(resultExpected, resultActual);
+            invalidResultExpected = "Happy:User Entry Validated Successfully";
+            invalidResultActual = validUserInfo.validPassword("bd1gB&@z");
+            Assert.assertEquals(invalidResultExpected, invalidResultActual);
         } catch ( UserRegistrationException e) {
             Assert.assertEquals(UserRegistrationException.ExceptionType.INVALID_USER_PASSWORD, e.type);
         }
@@ -120,9 +163,9 @@ class UserRegistrationJunitTest {
     @Test
     public void invalidPassword() throws  UserRegistrationException {
         try {
-            resultExpected = "Sad:User Entry Validation Failed";
-            resultActual = validUseInfo.validPassword("vm1gBxzy");
-            Assert.assertEquals(resultExpected, resultActual);
+            invalidResultExpected = "Sad:User Entry Validation Failed";
+            invalidResultActual = validUserInfo.validPassword("bd1gBxzy");
+            Assert.assertEquals(invalidResultExpected, invalidResultActual);
         } catch ( UserRegistrationException e) {
             Assert.assertEquals(UserRegistrationException.ExceptionType.INVALID_USER_PASSWORD, e.type);
         }
